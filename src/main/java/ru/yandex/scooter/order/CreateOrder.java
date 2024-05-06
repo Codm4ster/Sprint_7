@@ -1,4 +1,4 @@
-package ru.yandex.scooter.courier;
+package ru.yandex.scooter.order;
 
 import java.util.List;
 

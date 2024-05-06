@@ -1,27 +1,24 @@
-import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import org.junit.Before;
-import org.junit.Test;
+package ru.yandex.scooter;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
+import io.restassured.response.ValidatableResponse;
+import org.junit.Test;
+import ru.yandex.scooter.order.CheckOrder;
+import ru.yandex.scooter.order.StepOrder;
+
 
 public class OrderListTest {
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI= "http://qa-scooter.praktikum-services.ru";
-    }
+    private final StepOrder order = new StepOrder();
+    private final CheckOrder check = new CheckOrder();
 
     @Test
     @DisplayName("Получение списка заказов")
-    public void getOrderList() {
-        Response response =
-                given()
-                        .log()
-                        .all()
-                        .get("/api/v1/orders");
-        response.then().statusCode(200).and().assertThat().body("orders", notNullValue());
+    @Description("Проверка, что в тело ответа возвращается список заказов")
+    public void getListOrder() {
+        ValidatableResponse orderResponse = order.getListOrder();
+        check.checkListOrderSuccessfully(orderResponse);
     }
 }
+
